@@ -5,6 +5,7 @@ var Saxon = require('../');
 describe('Saxon',function(){
 
   var xml = __dirname+'/fixtures/test.xml';
+  var invalid_xml = __dirname+'/fixtures/error.xml';
   var xsl = __dirname+'/fixtures/test.xsl';
   
   function testStream(stream,inputs,output,next){
@@ -32,6 +33,17 @@ describe('Saxon',function(){
     it('should return a result of XSLT', function(done){
       var s = new Saxon(__dirname+'/../vendor/saxon9he.jar');
       testStream(s.xslt(xsl),[fs.readFileSync(xml)],'my name',done);
+    });
+  });
+
+  describe('error occurs', function(){
+    it('should occur error',function(done){
+      var s = new Saxon(__dirname+'/../vendor/saxon9he.jar');
+      s.on('error',function(err){
+        err.should.be.equal('Error');
+        done();
+      });
+      s.emit('error','Error');
     });
   });
 });
