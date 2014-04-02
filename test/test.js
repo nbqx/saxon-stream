@@ -7,6 +7,7 @@ describe('Saxon',function(){
   var xml = __dirname+'/fixtures/test.xml';
   var invalid_xml = __dirname+'/fixtures/error.xml';
   var xsl = __dirname+'/fixtures/test.xsl';
+  var inf_xsl = __dirname+'/fixtures/inf.xsl';
   
   function testStream(stream,inputs,output,next){
     for(var i=0; i<inputs.length; i++){
@@ -45,6 +46,25 @@ describe('Saxon',function(){
       });
       s.emit('error','Error');
     });
+  });
+
+  describe('timeout enable', function(){
+    it('should have a `_timeout` property',function(done){
+      var s = new Saxon(__dirname+'/../vendor/saxon9he.jar');
+      s = s.timeout(5000);
+      s.should.have.property('_timeout');
+      done();
+    });
+
+    // TODO
+    // it('should be code status 143', function(done){
+    //   var s = new Saxon(__dirname+'/../vendor/saxon9he.jar');
+    //   s.on('end',function(code){
+    //     code.should.be.equal(143);
+    //     done();
+    //   });
+    //   fs.createReadStream(xml).pipe(s.timeout(2000).xslt(inf_xsl));
+    // });
   });
 });
 
