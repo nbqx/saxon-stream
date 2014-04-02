@@ -1,6 +1,6 @@
 {
   "name": "saxon-stream",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "saxon transform stream wrapper",
   "main": "index.js",
   "scripts": {

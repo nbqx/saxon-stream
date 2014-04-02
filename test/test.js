@@ -57,14 +57,15 @@ describe('Saxon',function(){
     });
 
     // TODO
-    // it('should be code status 143', function(done){
-    //   var s = new Saxon(__dirname+'/../vendor/saxon9he.jar');
-    //   s.on('end',function(code){
-    //     code.should.be.equal(143);
-    //     done();
-    //   });
-    //   fs.createReadStream(xml).pipe(s.timeout(2000).xslt(inf_xsl));
-    // });
+    it('should be code status 143', function(done){
+      var s = new Saxon(__dirname+'/../vendor/saxon9he.jar');
+      s.on('error',function(err){});
+      s.on('end',function(code){
+        code.should.be.equal(143);
+        done();
+      });
+      fs.createReadStream(xml).pipe(s.timeout(2000).xslt(inf_xsl));
+    });
   });
 });
 
