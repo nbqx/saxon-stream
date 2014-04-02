@@ -56,11 +56,9 @@ describe('Saxon',function(){
       done();
     });
 
-    // TODO
     it('should be code status 143', function(done){
       var s = new Saxon(__dirname+'/../vendor/saxon9he.jar');
-      s.on('error',function(err){});
-      s.on('end',function(code){
+      s.on('end',function(code,mes){
         code.should.be.equal(143);
         done();
       });
