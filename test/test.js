@@ -39,12 +39,10 @@ describe('Saxon',function(){
 
   describe('invalid jar path', function(){
     it('should occur error',function(done){
-      var s = new Saxon(__dirname+'/../vendor/xxx.jar');
-      s.on('error',function(err){
-        err.name.should.be.equal('Error');
-        done();
-      });
-      fs.createReadStream(xml).pipe(s.xslt(inf_xsl));;
+      (function(){
+        var s = new Saxon(__dirname+'/../vendor/xxx.jar');
+      }).should.throw();
+      done();
     });
   });
 
