@@ -21,7 +21,7 @@ describe('Saxon',function(){
       next();
     });
   };
-  
+
   describe('constructor',function(){
     it('should have a `_transformState` property', function(done){
       var s = new Saxon(__dirname+'/../vendor/saxon9he.jar');
@@ -32,8 +32,19 @@ describe('Saxon',function(){
 
   describe('transform', function(){
     it('should return a result of XSLT', function(done){
-      var s = new Saxon(__dirname+'/../vendor/saxon9he.jar');
+      var s = new Saxon(__dirname+'/../vendor/saxon9he.jar',{'-versionmsg':'off'});
       testStream(s.xslt(xsl),[fs.readFileSync(xml)],'my name',done);
+    });
+  });
+
+  describe('invalid jar path', function(){
+    it('should occur error',function(done){
+      var s = new Saxon(__dirname+'/../vendor/xxx.jar');
+      s.on('error',function(err){
+        err.name.should.be.equal('Error');
+        done();
+      });
+      fs.createReadStream(xml).pipe(s.xslt(inf_xsl));;
     });
   });
 
@@ -58,10 +69,10 @@ describe('Saxon',function(){
 
     it('should be code status 143', function(done){
       var s = new Saxon(__dirname+'/../vendor/saxon9he.jar');
-      s.on('end',function(code,mes){
-        code.should.be.equal(143);
+      s.on('error',function(err){
+        err.code.should.be.equal(143);
         done();
-      });
+      })
       fs.createReadStream(xml).pipe(s.timeout(2000).xslt(inf_xsl));
     });
   });
